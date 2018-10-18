@@ -22,9 +22,9 @@ public class Application {
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
             .route(p -> p
-            	.path("/get")
-                .filters(f -> f.addRequestHeader("Hello", "World"))
-                .uri("http://httpbin.org:80"))
+            	.path("/autenticacao/**")
+                .filters(f -> f.stripPrefix(1))
+                .uri("https://apilivrariaauth20181002115700.azurewebsites.net"))
             .route(p -> p
                 .host("*.hystrix.com")
                 .filters(f -> f.hystrix(config -> config
