@@ -26,11 +26,21 @@ public class Application {
                 .filters(f -> f.stripPrefix(1))
                 .uri("https://apilivrariaauth20181002115700.azurewebsites.net"))
             .route(p -> p
-                .host("*.hystrix.com")
-                .filters(f -> f.hystrix(config -> config
-                    .setName("mycmd")
-                    .setFallbackUri("forward:/fallback")))
-                .uri("http://httpbin.org:80"))
+                	.path("/usuarios/**")
+                    .filters(f -> f.stripPrefix(1))
+                    .uri("https://apilivrariaauth20181002115700.azurewebsites.net/api/v1/User"))
+            .route(p -> p
+                	.path("/pagamentos/**")
+                    .filters(f -> f.stripPrefix(1))
+                    .uri("http://ms-payment.herokuapp.com/v1/private/pagamentos"))
+            .route(p -> p
+                	.path("/cartoes/**")
+                    .filters(f -> f.stripPrefix(1))
+                    .uri("http://ms-payment.herokuapp.com/v1/private/cartoes"))
+            .route(p -> p
+                	.path("/auditoria/**")
+                    .filters(f -> f.stripPrefix(1))
+                    .uri("https://auditoria20181002095244.azurewebsites.net/api/v1/Auditoria"))
             .build();
     }
     
