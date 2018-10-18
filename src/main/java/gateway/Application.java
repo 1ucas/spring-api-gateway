@@ -58,6 +58,14 @@ public class Application {
         		"	</ul>\r\n" + 
         		"    <h4>Objetivo:</h4>\r\n" + 
         		"    <div>O objetivo deste gateway é prover o roteamento das APIs de Livraria, autenticação, auditoria e pagamento (mock)</div>\r\n" + 
+        		"	<h4>Rotas Disponíveis:</h4>\r\n" + 
+        		"	<ul>\r\n" + 
+        		"        <li>/autenticacao</li>\r\n" + 
+        		"        <li>/usuarios</li>\r\n" + 
+        		"        <li>/pagamentos</li>\r\n" + 
+        		"        <li>/cartoes</li>\r\n" + 
+        		"        <li>/auditoria</li>\r\n" + 
+        		"	</ul>\r\n" + 
         		"	<h4>Onde está o código:</h4>\r\n" + 
         		"    <div>O código para este gateway pode ser encontrado no branch <strong>master</strong> do repositório do Github: https://github.com/1ucas/spring-api-gateway</div>\r\n" + 
         		"</body>");
