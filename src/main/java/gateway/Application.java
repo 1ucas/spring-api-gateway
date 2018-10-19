@@ -2,14 +2,17 @@ package gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import models.BaseErrorResponse;
 import reactor.core.publisher.Mono;
 
+@EnableCircuitBreaker
 @SpringBootApplication
 @RestController
 public class Application {
@@ -39,7 +42,10 @@ public class Application {
                     .uri("http://ms-payment.herokuapp.com/v1/private/cartoes"))
             .route(p -> p
                 	.path("/auditoria/**")
-                    .filters(f -> f.stripPrefix(1))
+                    .filters(f -> f.stripPrefix(1)
+                    		.hystrix(config -> config
+            				.setName("shortCircuitAuditoria")
+                            .setFallbackUri("forward:/fallBackAuditoria")))
                     .uri("https://auditoria20181002095244.azurewebsites.net/api/v1/Auditoria"))
             .build();
     }
@@ -71,9 +77,8 @@ public class Application {
         		"</body>");
     }
     
-    @RequestMapping("/fallback")
-    public Mono<String> fallback() {
-        return Mono.just("fallback");
+    @RequestMapping("/fallBackAuditoria")
+    public BaseErrorResponse fallback() {
+        return new BaseErrorResponse(500, "Ops, ocorreu um erro.");
     }
-
 }
